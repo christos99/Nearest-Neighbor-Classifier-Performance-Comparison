@@ -1,10 +1,10 @@
 # Project Title
 
-Nearest Neighbor Classifier Performance Comparison
+Enhancing Image Classification Performance using Deep Convolutional Neural Networks
 
 ## Project Description
 
-This project involves developing a program in any desired programming language to compare the performance of the k-nearest neighbor classifier with 1 and 3 nearest neighbors against the performance of the centroid-based classifier. The program will read training and test data from a selected database and evaluate the accuracy of the classifiers.
+This project focuses on improving the accuracy of image classification tasks by leveraging the power of deep learning and convolutional neural networks (CNNs). By employing advanced techniques and architectures, the project aims to achieve state-of-the-art performance in classifying complex visual data. The project explores various aspects of CNNs, such as network architectures, hyperparameter tuning, and data augmentation, to optimize the model's performance. Additionally, it investigates different evaluation metrics and visualization techniques to gain insights into the model's predictions. Through this project, the goal is to showcase the potential of deep learning for image classification tasks and provide valuable insights for further research and applications.
 
 ## Features
 
