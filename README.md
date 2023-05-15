@@ -66,8 +66,6 @@ The Nearest Centroid classifier is evaluated using the following steps:
 
 ## Usage
 
-To run the code, ensure that you have the necessary dependencies installed. You can then execute the script and observe the performance analysis of the KNN and Nearest Centroid classifiers.
-
 Feel free to experiment with different values of `k` for the KNN classifier or explore other classifiers to further analyze their performance using the MNIST dataset.
 
 
