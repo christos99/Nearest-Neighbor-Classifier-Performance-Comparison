@@ -13,6 +13,25 @@ This project focuses on improving the accuracy of image classification tasks by 
 - Read training and test data from a chosen database.
 - Calculate and compare the performance of the classifiers.
 
+## Dependencies and Programming Language
+
+- **Programming Language:** Python
+
+The project relies on the following libraries and frameworks:
+
+- **TensorFlow** : A powerful deep learning library for building and training neural networks.
+- **Keras** : A high-level neural networks API that runs on top of TensorFlow, simplifying the process of building and training models.
+- **NumPy** : A fundamental package for scientific computing in Python, providing support for large, multi-dimensional arrays and matrices.
+- **Matplotlib** : A plotting library for creating static, animated, and interactive visualizations in Python.
+- **Scikit-learn** : A machine learning library that provides efficient tools for data preprocessing, model selection, and evaluation.
+
+
+The project was developed using **Google Colab**, a cloud-based Jupyter notebook environment, as it provided a convenient platform for running the code and leveraging the computational resources required for deep learning tasks.
+
+Ensure that you have these dependencies installed in your Python environment before running the project. You can use tools like pip or conda to install them:
+
+
+
 # Classifier Performance Analysis
 
 This project involves building and analyzing the performance of two classifiers: K Nearest Neighbors (KNN) and Nearest Centroid. The code compares the performance of these classifiers using the MNIST dataset, which consists of handwritten digit images.
