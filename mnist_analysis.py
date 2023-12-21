@@ -1,77 +1,61 @@
+import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import metrics
-from sklearn.neighbors import KNeighborsClassifier, NearestCentroid
 from keras.datasets import mnist
+from sklearn.neighbors import KNeighborsClassifier, NearestCentroid
+from sklearn.metrics import classification_report, ConfusionMatrixDisplay
+from sklearn.preprocessing import StandardScaler
 from time import time
 
-# Data Transform
-(train_X, train_y), (test_X, test_y) = mnist.load_data()
-train_X = train_X.reshape(train_X.shape[0], train_X.shape[1] ** 2)
-test_X = test_X.reshape(test_X.shape[0], test_X.shape[1] ** 2)
+def load_and_preprocess_data():
+    """
+    Load the MNIST dataset and preprocess it for model training and evaluation.
+    Returns the scaled and reshaped training and test sets.
+    """
+    # Load MNIST dataset
+    (train_X, train_y), (test_X, test_y) = mnist.load_data()
 
-# KNN Classifier
-neighbors = [1, 3]
-for k in neighbors:
-    # Fitting the KNearest Neighbor Classifier
-    knn = KNeighborsClassifier(k)
-    
-    # Starting timer
-    t = time()
-    
-    # Fitting the training data to the model
-    knn.fit(train_X, train_y)
-    
-    # Creating first time stamp for time elapsed to fit the data
-    time_fit = time() - t
-    
-    t = time()
-    
-    # Using testing data to evaluate the model
-    predicted = knn.predict(test_X)
-    
-    # Creating second time stamp for time elapsed to predict
-    time_predict = time() - t
-    
-    print(f"Analysis for K Nearest Neighbor = {k}")
-    
-    # Displaying the time it took to fit, predict the data, and the total runtime of the process.
-    print(f"Time to fit: {time_fit:.2f}s - Time to predict: {time_predict:.2f}s\nTotal time: {(time_fit + time_predict):.2f}s")
-    
-    # Displaying the scores for each classification of the model.
-    print(f"Classification report for classifier {knn}:\n{metrics.classification_report(test_y, predicted)}\n")
-    
-    # Using Confusion Matrix to display the Model's performance
-    display = metrics.ConfusionMatrixDisplay.from_predictions(test_y, predicted)
-    display.figure_.suptitle("Confusion Matrix")
+    # Reshape and scale the data
+    scaler = StandardScaler()
+    train_X = scaler.fit_transform(train_X.reshape(-1, 28*28))
+    test_X = scaler.transform(test_X.reshape(-1, 28*28))
+
+    return train_X, train_y, test_X, test_y
+
+def train_and_evaluate_classifier(clf, train_X, train_y, test_X, test_y):
+    """
+    Train a classifier and evaluate its performance.
+    Outputs the training time, prediction time, and classification metrics.
+    """
+    start_time = time()
+    clf.fit(train_X, train_y)
+    fit_time = time() - start_time
+
+    start_time = time()
+    predictions = clf.predict(test_X)
+    predict_time = time() - start_time
+
+    # Display the performance metrics
+    print(f"Classifier: {clf.__class__.__name__} (Time to fit: {fit_time:.2f}s, Time to predict: {predict_time:.2f}s)")
+    print(classification_report(test_y, predictions))
+    ConfusionMatrixDisplay.from_predictions(test_y, predictions)
+    plt.title(f"Confusion Matrix - {clf.__class__.__name__}")
     plt.show()
 
-# Nearest Centroid
-# Fitting the Nearest Centroid Classifier
-NCentroid = NearestCentroid()
+def main():
+    """
+    Main function to execute the training and evaluation process.
+    Trains K-Nearest Neighbors and Nearest Centroid classifiers.
+    """
+    train_X, train_y, test_X, test_y = load_and_preprocess_data()
 
-# Starting timer
-t = time()
-NCentroid.fit(train_X, train_y)
+    # List of classifiers to train and evaluate
+    classifiers = [
+        KNeighborsClassifier(n_neighbors=k)
+        for k in [1, 3]
+    ] + [NearestCentroid()]
 
-# Creating first time stamp for time elapsed to fit the data
-time_fit = time() - t
-t = time()
+    for clf in classifiers:
+        train_and_evaluate_classifier(clf, train_X, train_y, test_X, test_y)
 
-# Using testing data to evaluate the model
-predicted = NCentroid.predict(test_X)
-
-# Creating second time stamp for time elapsed to predict
-predict_time = time() - t
-
-print(f"Analysis for Nearest Centroid")
-
-# Displaying the time it took to fit, predict the data, and the total runtime of the process.
-print(f"Time to fit: {time_fit:.2f}s - Time to predict: {time_predict:.2f}s\nTotal time: {(time_fit + time_predict):.2f}s")
-
-# Displaying the scores for each classification of the model.
-print(f"Classification report for classifier {NCentroid}:\n{metrics.classification_report(test_y, predicted)}\n")
-
-# Using Confusion Matrix to display the Model's performance
-display = metrics.ConfusionMatrixDisplay.from_predictions(test_y, predicted)
-display.figure_.suptitle("Confusion Matrix")
-plt.show()
+if __name__ == "__main__":
+    main()
